@@ -1,0 +1,27 @@
+{% extends "base.html" %} {% block content %}
+
+<div class="w-full container">
+  <center>
+    <div class="container align-center items-center">
+      <div class="row justify-content-md-center w-100">
+        <form method="POST" enctype="multipart/form-data" action="/upload/">
+          {% csrf_token %}
+          <label class="form-label" for="document"
+            >Mettre en ligne un fichier CSV</label
+          >
+          <input
+            type="file"
+            class="form-control"
+            name="document"
+            id="document"
+            required="required"
+          />
+          <br />
+          <button id="submit">Ajouter</button>
+        </form>
+      </div>
+    </div>
+  </center>
+</div>
+
+{% endblock %}

@@ -1,0 +1,13 @@
+{
+  "scripts": {
+    "dev": "tailwindcss -i src/static/tw/tailwind-input.css -o src/static/css/prjhome-ui.css --watch"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.3.5"
+  },
+  "dependencies": {
+    "@radix-ui/colors": "^3.0.0",
+    "@radix-ui/themes": "^2.0.1",
+    "chart.js": "^4.4.1"
+  }
+}

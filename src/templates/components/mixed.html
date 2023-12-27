@@ -1,0 +1,106 @@
+<center>
+  <div class="chart-container">
+    <canvas id="myChart"></canvas>
+  </div>
+</center>
+<script>
+
+
+      const ctx = document.getElementById("myChart")
+
+      var displayXAxis
+      var displayYAxis
+
+      var cType1 = {{cType1|safe}}
+      var cType2 = {{cType2|safe}}
+
+      if ((cType1[0] == "doughnut" || cType1[0] == "pie" || cType1[0] == "radar" || cType1[0] == "polarArea") && (cType2[0] == "doughnut" || cType2[0] == "pie" || cType2[0] == "radar" || cType2[0] == "polarArea")) {
+        displayXAxis = false
+        displayYAxis = false
+      }else{
+        displayXAxis=true
+        displayYAxis=true
+      }
+
+      function generateColorsAndBorders(chartType) {
+      let colorArray = [];
+      let borderColorArray = [];
+
+      if (chartType[0] == "scatter" || chartType[0] == "bubble" || chartType[0] == "doughnut" || chartType[0] == "pie") {
+          // Full colors
+          colorArray = ['#FF5733', '#33FF57', '#3357FF', '#FF33E9', '#33FFFF', '#FF33FF', '#FFFF33', '#FF5733', '#33FF57', '#3357FF']; // Full colors
+          borderColorArray = colorArray.map(color => {
+              // Darkening the color for borders
+              let darkenedColor = color.replace('#', ''); // Remove #
+              darkenedColor = darkenedColor.match(/.{1,2}/g).map(channel => Math.floor(parseInt(channel, 16) * 0.7).toString(16)).join('');
+              return `#${darkenedColor}`;
+          });
+      } else {
+          // Transparent colors with more pronounced borders
+          colorArray = ['rgba(255, 87, 51, 0.2)', 'rgba(51, 255, 87, 0.2)', 'rgba(51, 87, 255, 0.2)', 'rgba(255, 51, 233, 0.2)', 'rgba(51, 255, 255, 0.2)', 'rgba(255, 153, 0, 0.2)', 'rgba(204, 0, 255, 0.2)', 'rgba(255, 102, 102, 0.2)', 'rgba(153, 255, 51, 0.2)', 'rgba(255, 204, 0, 0.2)']; // Transparent colors
+          borderColorArray = colorArray.map(color => {
+              // Darkening the color for borders
+              let rgbaColor = color.replace('rgba(', '').replace(')', '').split(',').map(channel => parseFloat(channel.trim()));
+              let darkenedColor = `rgba(${rgbaColor[0] * 0.7}, ${rgbaColor[1] * 0.7}, ${rgbaColor[2] * 0.7}, ${0.7})`;
+              return darkenedColor;
+          });
+      }
+
+      return [colorArray, borderColorArray];
+  }
+
+    // Generate colors, border colors, and border widths for cType1
+    let { colorArray: colorArray1, borderColorArray: borderColorArray1, borderWidth: borderWidth1 } = generateColorsAndBorders(cType1);
+
+    // Generate colors, border colors, and border widths for cType2
+    let { colorArray: colorArray2, borderColorArray: borderColorArray2, borderWidth: borderWidth2 } = generateColorsAndBorders(cType2);
+
+
+
+
+      new Chart(ctx, {
+        data: {
+          labels: {{listkeys|safe}},
+          datasets: [{
+            type: {{cType1|safe}},
+            label: {{ gTitle|safe }},
+            backgroundColor: colorArray1,
+            borderColor: borderColorArray1,
+            borderWidth: borderWidth1,
+            data: {{listvalues|safe}},
+          },{
+                type: {{cType2|safe}},
+                label: {{ gTitle2|safe }},
+                backgroundColor: colorArray2,
+                borderColor: borderColorArray2,
+                borderWidth: borderWidth2,
+                data: {{listvalues2|safe}},
+            }],
+        },
+        options: {
+          title: {
+            display: true,
+            text: "Chart",
+          },
+          scales: {
+
+            x: {
+              display: displayXAxis,
+              title: {
+                display: displayXAxis,
+                text: {{xAxis|safe}},
+              }
+            },
+            y: {
+              display: displayYAxis,
+              title: {
+                display: displayYAxis,
+                text: {{yAxis|safe}},
+              }
+            },
+          }
+
+        }
+      })
+</script>
+<br />

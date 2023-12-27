@@ -1,0 +1,136 @@
+
+{% if hide == False %}
+<form method="POST" enctype="multipart/form-data" action="/feature/">
+  {% csrf_token %}
+  <label class="form-label" for="document">Sélectionner un fichier CSV</label>
+  <select name="selected_doc">
+    <option value="">----------</option>
+    {% for i in csv_files %}
+    <option value="{{i}}">{{i}}</option>
+    {% endfor %}
+  </select>
+
+  <br />
+  <button id="submit">Sélectionner</button>
+
+  <div class="col-sm">
+</form>
+{% endif %}
+{% if hide == True %}
+<form method="POST" enctype="multipart/form-data" action="/chart/">
+  {% csrf_token %}
+  <h3>{{selected_doc}}</h3>
+  <label class="form-label" for="document"
+    >Afficher l'attribut</label
+  >
+  <select name="att1" id="mySelect" required>
+    <option value="">----------</option>
+    {% for i in nan_mean_columns %}
+    <option value="{{i}}">{{i}}</option>
+    {% endfor %}
+  </select>
+
+  <label class="form-label" for="document"
+    >En fonction de</label
+  >
+  <select name="att2" id="mySelect" required>
+    <option value="">----------</option>
+    {% for i in valid_mean_columns %}
+    <option value="{{i}}">{{i}}</option>
+    {% endfor %}
+  </select>
+
+  <label class="form-label" for="document"
+    >Sous forme de</label
+  >
+  <select name="operation">
+    
+    <option value="mean">Moyenne</option>
+    <option value="median">Mediane</option>
+    <option value="sum">Total</option>
+    <option value="max">Maximum</option>
+    <option value="min">Minimum</option>
+    
+  </select>
+
+  {% if chart_type == "mixed" %}
+    <label class="form-label" for="document">Graphe</label>
+    <select name="chart_type1">
+      
+      <option value="pie">Pie</option>
+      <option value="bar">Bar</option>
+      <option value="doughnut">Doughnut</option>
+      <option value="radar">Radar</option>
+      <option value="polarArea">Polar Area</option>
+      <option value="line">Line</option>
+      <option value="scatter">Scatter</option>
+      <option value="bubble">Bubble</option>
+      
+    </select>
+    <br />
+      <label class="form-label mt-5" for="document"
+      >Et en fonction de</label
+    >
+    <select name="att3" id="mySelect" required>
+      <option value="">----------</option>
+      {% for i in valid_mean_columns %}
+      <option value="{{i}}">{{i}}</option>
+      {% endfor %}
+    </select>
+    <label class="form-label" for="document"
+      >Sous forme de</label
+    >
+    <select name="operation2">
+      
+      <option value="mean">Moyenne</option>
+      <option value="median">Mediane</option>
+      <option value="sum">Total</option>
+      <option value="max">Maximum</option>
+      <option value="min">Minimum</option>
+      
+    </select>
+    <label class="form-label" for="document"
+      >Graphe</label
+    >
+
+    <select name="chart_type2">
+      
+      <option value="pie">Pie</option>
+      <option value="bar">Bar</option>
+      <option value="doughnut">Doughnut</option>
+      <option value="radar">Radar</option>
+      <option value="polarArea">Polar Area</option>
+      <option value="line">Line</option>
+      <option value="scatter">Scatter</option>
+      <option value="bubble">Bubble</option>
+      
+    </select>
+  {% endif %}
+
+  <br />
+  <button id="submit">Sélectionner</button>
+
+</form>
+{% endif %}</div>
+
+{% if chart_type == "mixed" %}
+<div class="">{% include "components/mixed.html"%}
+</div>
+{% else%}
+<div class="">{% include "components/graph.html"%}
+</div>
+{% endif %}
+
+<script>
+  const selectElement = document.getElementById('mySelect');
+
+selectElement.addEventListener('change', function() {
+  const selectedOption = selectElement.options[selectElement.selectedIndex].value;
+  
+  if (selectedOption === "") {
+    selectElement.removeAttribute('required');
+  } else {
+    selectElement.setAttribute('required', 'required');
+  }
+});
+</script>

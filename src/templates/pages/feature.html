@@ -1,0 +1,14 @@
+{% extends "base.html" %} {% block content %}
+
+<div class="w-full container">
+  <center>
+    <div class="container align-center items-center">
+      <div class="row justify-content-md-center w-100">
+        {{ current_path }}
+        <div class="col-sm">{% include 'components/chart.html' %}</div>
+      </div>
+    </div>
+  </center>
+</div>
+
+{% endblock %}
