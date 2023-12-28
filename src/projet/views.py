@@ -62,8 +62,6 @@ def feature_view(request):
     for i in range(len(types)):
         if last_digits==types[i]:
             chart_type=types[i]
-    print(current_path)
-    print(chart_type)
     
     if request.method == 'POST':
         selected_doc=request.POST.get('selected_doc')
@@ -151,6 +149,10 @@ def graph_view(request):
             gTitle.append("Maximum")
         elif operation=='min':
             gTitle.append("Minimum")
+        elif operation=="std":
+            gTitle.append("Ecart-type")
+        elif operation=="count":
+            gTitle.append("Compte")
 
     if att3:
         data[att3]=pd.to_numeric(data[att3], errors='coerce')
@@ -170,16 +172,14 @@ def graph_view(request):
                 gTitle2.append("Maximum")
             elif operation2=='min':
                 gTitle2.append("Minimum")
+            elif operation2=="std":
+             gTitle2.append("Ecart-type")
+            elif operation=="count":
+                gTitle2.append("Compte")
         
         for i in values2:
             listvalues2.append(i)
-        print(cType2, gTitle2)
-        print(cType1, gTitle)
         
-    print(chart_type)
-
-    print(cType, xAxis, yAxis, gTitle)
-
     listkeys=[]
     listvalues=[]
     
@@ -188,7 +188,6 @@ def graph_view(request):
     for i in values:
         listvalues.append(i)
 
-    
     csv_files = [file for file in os.listdir(media_directory)]
 
     context={'listkeys':listkeys,'listvalues':listvalues, "listvalues2":listvalues2 , 'csv_files':csv_files, 'chart_type':chart_type, 'cType':cType, "cType1":cType1, "cType2":cType2, "xAxis":xAxis, "yAxis":yAxis, "gTitle":gTitle, "gTitle2":gTitle2, "att1":att1, "att2":att2, "operation":operation, "selected_doc":selected_doc, "header":header}
