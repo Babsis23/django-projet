@@ -151,8 +151,6 @@ def graph_view(request):
             gTitle.append("Minimum")
         elif operation=="std":
             gTitle.append("Ecart-type")
-        elif operation=="count":
-            gTitle.append("Compte")
 
     if att3:
         data[att3]=pd.to_numeric(data[att3], errors='coerce')
@@ -174,8 +172,6 @@ def graph_view(request):
                 gTitle2.append("Minimum")
             elif operation2=="std":
              gTitle2.append("Ecart-type")
-            elif operation=="count":
-                gTitle2.append("Compte")
         
         for i in values2:
             listvalues2.append(i)
